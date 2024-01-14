@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const User = reqiure("../model/user");
+const User = require("../model/user");
 require("dotenv").config();
 
 exports.signup = async (req, res) => {
@@ -34,12 +34,13 @@ exports.signup = async (req, res) => {
         })
     }
     catch (err) {
-        console.log(error);
+        console.log(err);
         return res.statsu(500).json({
             sucess: false,
             message: "User Cannot be Registered, Please Try Again later"
         })
     }
+  }
 exports.login = async (req,res) => {
   try{
     //data fetch
@@ -50,7 +51,7 @@ exports.login = async (req,res) => {
         message:'Please fill all the details carefully'
       });
     }
-    const user = await User.findOne({email});
+    let user = await User.findOne({email});
     if(!user){
       return res.status(401).json({
         success:false,
@@ -83,7 +84,7 @@ exports.login = async (req,res) => {
         });
     }
     else{
-      return res.starus(403).json({
+      return res.status(403).json({
         success:false,
         message:"Password Incorrect"
       });
